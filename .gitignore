@@ -3,4 +3,5 @@ __pycache__
 demo.py
 report
 .pytest_cache
+.vscode
 runserver.bat
