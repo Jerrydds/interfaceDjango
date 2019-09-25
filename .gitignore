@@ -4,4 +4,3 @@ demo.py
 report
 .pytest_cache
 .vscode
-runserver.bat
