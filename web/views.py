@@ -11,8 +11,8 @@ def Login(request):
         password = request.POST.get('password')
         result['username'] = username
         result['password'] = password
-        result = json.dumps(result)
-        return HttpResponse(result, content_type="application/json;charset=utf-8")
+        results = json.dumps(result)
+        return HttpResponse(results, content_type="application/json;charset=utf-8")
     else:
         return render_to_response('login.html')
 
