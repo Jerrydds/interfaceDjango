@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
+import markdown
+from django.utils.html import strip_tags
 
 
 # 需要 3 个表格：文章（Post）、分类（Category）以及标签（Tag）
@@ -88,6 +90,20 @@ class Post(models.Model):
         # Post 自己就生成了自己的 URL
         return reverse('web:detail', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        # 首先实例化一个 Markdown 类，用于渲染 body 的文本。
+        # 由于摘要并不需要生成文章目录，所以去掉了目录拓展。
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ])
+
+        # 先将 Markdown 文本渲染成 HTML 文本
+        # strip_tags 去掉 HTML 文本的全部 HTML 标签
+        # 从文本摘取前 54 个字符赋给 excerpt
+        # 方法二: {{post.body | truncatechars: 54}} 模板直接使用
+        self.excerpt = strip_tags(md.convert(self.body))[:54]
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
-

@@ -1,1 +1,1 @@
-default_app_config = 'web.apps.WebConfig'       # 格式：应用名.apps.classs名（apps.py中修改的class名）
+# default_app_config = 'web.apps.WebConfig'       # 格式：应用名.apps.classs名（apps.py中修改的class名）

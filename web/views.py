@@ -1,9 +1,10 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http.response import HttpResponse
-from django.shortcuts import render
 # from django.http import HttpResponse
 from .models import Post
-import json
+import json, markdown, re
+from markdown.extensions.toc import TocExtension
+from django.utils.text import slugify
 
 
 def index(request):
@@ -16,10 +17,27 @@ def index(request):
         'post_list': post_list
     })
 
-# 编写 detail 视图函数
+
+#   编写 detail 视图函数
 def detail(request, pk):
     # 判断pk存在于数据库,真post;否404
     post = get_object_or_404(Post, pk=pk)
+    # 实例md 的convert 方法将 post.body 中的 Markdown 文本解析成 HTML文本
+    md = markdown.Markdown(extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        # 'markdown.extensions.toc',
+        # 记得在顶部引入 TocExtension 和 slugify
+        TocExtension(slugify=slugify),
+    ])
+
+    # 指定 body 为markdown文本内容
+    post.body = md.convert(post.body)
+
+    # 处理空目录, 用正则筛选
+    m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+    post.toc = m.group(1) if m is not None else ''
+
     return render(request, 'blog/detail.html', context={'post': post})
 
 

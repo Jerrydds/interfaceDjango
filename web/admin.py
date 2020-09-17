@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import Post, Category, Tag
 from django.utils import timezone
+import markdown
+from django.utils.html import strip_tags
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -9,10 +11,11 @@ class PostAdmin(admin.ModelAdmin):
     # 简化新增文章的表单
     fields = ['title', 'body', 'excerpt', 'category', 'tags']
 
-    #  Modeladmin 关联注册的是Post实例保存到数据库, obj.save()
+    #  Modeladmin 关联注册的是Post实例自动保存到数据库, obj.save()
     def save_model(self, request, obj, form, change):
         obj.author = request.user
         obj.modified_time = timezone.now()
+
         super().save_model(request, obj, form, change)
 
 
