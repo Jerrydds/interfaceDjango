@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.http.response import HttpResponse
 from django.shortcuts import render
 # from django.http import HttpResponse
@@ -15,6 +15,12 @@ def index(request):
         'welcome': '欢迎访问我的博客首页',
         'post_list': post_list
     })
+
+# 编写 detail 视图函数
+def detail(request, pk):
+    # 判断pk存在于数据库,真post;否404
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/detail.html', context={'post': post})
 
 
 def Login(request):
