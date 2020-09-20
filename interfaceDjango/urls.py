@@ -16,6 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+# from django.urls import re_path  # 写正则匹配
 from web.views import Login
 
 urlpatterns = [

@@ -1,7 +1,8 @@
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http.response import HttpResponse
 # from django.http import HttpResponse
-from .models import Post
+# 引入 Post Category Tag 类
+from .models import Post, Category, Tag
 import json, markdown, re
 from markdown.extensions.toc import TocExtension
 from django.utils.text import slugify
@@ -39,6 +40,31 @@ def detail(request, pk):
     post.toc = m.group(1) if m is not None else ''
 
     return render(request, 'blog/detail.html', context={'post': post})
+
+
+# 编写 archive 视图函数
+def archive(request, year, month):
+    post_list = Post.objects.filter(
+        created_time__year=year,
+        created_time__month=month
+    ).order_by('-created_time')
+    return render(request, 'blog/index.html', context={'post_list': post_list})
+
+
+# 编写 category 视图函数
+def category(request, pk):
+    # 记得在开始部分导入 Category 类
+    cate = get_object_or_404(Category, pk=pk)
+    post_list = Post.objects.filter(category=cate).order_by('-created_time')
+    return render(request, 'blog/index.html', context={'post_list': post_list})
+
+
+# 编写 tag 视图函数
+def tag(request, pk):
+    # 记得在开始部分导入 Tag 类
+    t = get_object_or_404(Tag, pk=pk)
+    post_list = Post.objects.filter(tags=t).order_by('-created_time')
+    return render(request, 'blog/index.html', context={'post_list': post_list})
 
 
 def Login(request):
