@@ -19,9 +19,6 @@ class Category(models.Model):
         verbose_name = '分类'
         verbose_name_plural = verbose_name
 
-
-
-
     def __str__(self):
         return self.name
 
@@ -87,12 +84,6 @@ class Post(models.Model):
         verbose_name = '文章'
         verbose_name_plural = verbose_name
 
-    # 自定义 get_absolute_url 方法
-    # 记得从 django.urls 中导入 reverse 函数
-    def get_absolute_url(self):
-        # Post 自己就生成了自己的 URL
-        return reverse('web:detail', kwargs={'pk': self.pk})
-
     def save(self, *args, **kwargs):
         # 首先实例化一个 Markdown 类，用于渲染 body 的文本。
         # 由于摘要并不需要生成文章目录，所以去掉了目录拓展。
@@ -110,3 +101,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    # 自定义 get_absolute_url 方法
+    # 记得从 django.urls 中导入 reverse 函数
+    def get_absolute_url(self):
+        # Post 自己就生成了自己的 URL
+        return reverse('web:detail', kwargs={'pk': self.pk})

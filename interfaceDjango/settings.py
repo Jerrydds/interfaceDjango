@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'web.apps.WebConfig',  # 注册 web 应用
     # 'web',
+    'comments.apps.CommentsConfig',  # 注册 comments 应用
 ]
 
 MIDDLEWARE = [

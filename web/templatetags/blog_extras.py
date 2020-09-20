@@ -1,8 +1,7 @@
 from django import template
-
 from ..models import Post, Category, Tag
 
-register = template.Library() # 实例化
+register = template.Library()  # 实例化
 
 
 # 添加最新文章_模板标签
