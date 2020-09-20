@@ -83,6 +83,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
+        ordering = ['-created_time']
 
     def save(self, *args, **kwargs):
         # 首先实例化一个 Markdown 类，用于渲染 body 的文本。
