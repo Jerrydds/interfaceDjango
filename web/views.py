@@ -24,6 +24,10 @@ def detail(request, pk):
     # 判断pk存在于数据库,真post;否404
     post = get_object_or_404(Post, pk=pk)
     # 实例md 的convert 方法将 post.body 中的 Markdown 文本解析成 HTML文本
+
+    # 阅读量 +1
+    post.increase_views()
+
     md = markdown.Markdown(extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
