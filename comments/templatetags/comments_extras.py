@@ -4,7 +4,7 @@ from ..forms import CommentForm
 register = template.Library()
 
 
-# 添加 评论_模板标签
+# 添加 评论表单_模板标签
 @register.inclusion_tag('comments/inclusions/_form.html', takes_context=True)
 def show_comment_form(context, post, form=None):
     if form is None:
@@ -14,6 +14,7 @@ def show_comment_form(context, post, form=None):
         'post': post,
     }
 
+# 显示评论内容
 @register.inclusion_tag('comments/inclusions/_list.html', takes_context=True)
 def show_comments(context, post):
     comment_list = post.comment_set.all().order_by('-created_time')
