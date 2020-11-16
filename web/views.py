@@ -9,6 +9,8 @@ import json, markdown, re
 from markdown.extensions.toc import TocExtension
 from django.utils.text import slugify
 
+from pure_pagination.mixins import PaginationMixin
+
 """
 def index(request):
     # 首页配置
@@ -75,18 +77,15 @@ def tag(request, pk):
 
 
 # 将 index 视图函数改写为类视图
-class IndexView(ListView):
+class IndexView(PaginationMixin, ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
+    paginate_by = 10
 
 
 # 将 category 视图函数改写为类视图
-class CategoryView(ListView):
-    model = Post
-    template_name = 'blog/index.html'
-    context_object_name = 'post_list'
-
+class CategoryView(IndexView):
     def get_queryset(self):
         cate = get_object_or_404(Category, pk=self.kwargs.get('pk'))
         return super(CategoryView, self).get_queryset().filter(category=cate)
