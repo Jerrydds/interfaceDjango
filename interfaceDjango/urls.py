@@ -18,10 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 # from django.urls import re_path  # 写正则匹配
 from web.views import Login
+from web.feeds import AllPostsRssFeed
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login),
     path('', include('web.urls')),
     path('', include('comments.urls')),
+
+    # 记得在顶部引入 AllPostsRssFeed
+    path('all/rss/', AllPostsRssFeed(), name='rss'),
 ]
