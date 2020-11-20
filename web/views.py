@@ -1,4 +1,6 @@
-from django.shortcuts import render_to_response, get_object_or_404, render
+from django.contrib import messages
+from django.db.models import Q
+from django.shortcuts import render_to_response, get_object_or_404, render, redirect
 from django.http.response import HttpResponse
 # from django.http import HttpResponse
 
@@ -154,6 +156,18 @@ class PostDetailView(DetailView):
         post.toc = m.group(1) if m is not None else ''
 
         return post
+
+
+def search(request):
+    q = request.GET.get('q')
+
+    if not q:
+        error_msg = "请输入搜索关键词"
+        messages.add_message(request, messages.ERROR, error_msg, extra_tags='danger')
+        return redirect('blog:index')
+
+    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+    return render(request, 'blog/index.html', {'post_list': post_list})
 
 
 def Login(request):
