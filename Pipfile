@@ -4,8 +4,19 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+fabric = "*"
+coverage = "*"
 
 [packages]
+django = "2.2.5"
+markdown = "*"
+gunicorn = "*"
+faker = "*"
+django-pure-pagination = "*"
+elasticsearch = ">=2,<3"
+django-haystack = "*"
+fabric = {index = "https://pypi.tuna.tsinghua.edu.cn/simple", version = "*"}
+coverage = "*"
 
 [requires]
 python_version = "3.6"
