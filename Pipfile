@@ -10,7 +10,7 @@ coverage = "*"
 [packages]
 django = "2.2.5"
 markdown = "*"
-gunicorn = "*"
+gunicorn = {version = "*", index = "https://pypi.douban.com/simple"}
 faker = "*"
 django-pure-pagination = "*"
 elasticsearch = ">=2,<3"
